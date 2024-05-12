@@ -10,10 +10,13 @@ class Camera
 {
 public:
     glm::vec3 position;
+    glm::vec3 target;
     glm::vec3 localVectorUp;
+
     float fFov;
     float fNear;
     float fFar;
+
     float movementSpeed;
 
     Camera();
