@@ -9,10 +9,12 @@
 #include <vector>
 #include <sstream>
 #include <stb_image.h>
+
 #include "Model.h"
 #include "Texture.h"
 #include "ProgramManager.h"
 #include "GLManager.h"
+#include "Camera.h"
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -240,13 +242,14 @@ void main() {
 
 	GLM.Init();
 
-
 	Texture texture;
 	texture.InitTexture("Assets/Textures/troll.png");
 
-
 	//Inicializamos GLEW y controlamos errores
 	if (glewInit() == GLEW_OK) {
+
+		//Declarar instancia de camara
+		Camera camera;
 
 		//Compilar shaders
 		PROGRAMS.Compile();
@@ -257,6 +260,7 @@ void main() {
 		//Activamos el Depth test con lo que arreglamos el Z Fighting
 		glEnable(GL_DEPTH_TEST);  
 
+		//Load Texture
 		texture.LoadTexture();
 
 		//Definimos color para limpiar el buffer de color
@@ -280,6 +284,9 @@ void main() {
 			//Pulleamos los eventos (botones, teclas, mouse...)
 			glfwPollEvents();
 			
+			// Controlador de la camara
+			camera.UpdateCamera();
+
 			//Limpiamos los buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
