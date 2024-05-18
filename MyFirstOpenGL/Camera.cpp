@@ -11,6 +11,7 @@ Camera::Camera()
 
 void Camera::HandleKeyboardInput(GLFWwindow* window) 
 {
+    /*
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         position += movementSpeed * glm::vec3(0.f, 1.f, 0.f);
@@ -35,7 +36,7 @@ void Camera::HandleKeyboardInput(GLFWwindow* window)
     {
         position -= movementSpeed * glm::vec3(0.f, 0.f, 1.f);
     }
-
+    */
     if (glfwGetKey(window, GLFW_KEY_PERIOD) == GLFW_PRESS)
     {
         fFov += 1.f;

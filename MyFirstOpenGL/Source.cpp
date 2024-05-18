@@ -40,8 +40,8 @@ void main() {
 		MODELS.models.push_back(MODELS.LoadOBJModel("Assets/Models/troll.obj"));
 		MODELS.models.push_back(MODELS.LoadOBJModel("Assets/Models/rock.obj"));
 
-		GAME_OBJECTS.gameObjects.push_back(GameObject(PROGRAMS.GetCompiledPrograms()[0], glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), MODELS.models[0], 0));
-		GAME_OBJECTS.gameObjects.push_back(GameObject(PROGRAMS.GetCompiledPrograms()[0], glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), MODELS.models[1], 1));
+		GAME_OBJECTS.gameObjects.push_back(GameObject(PROGRAMS.GetCompiledPrograms()[0], glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), MODELS.models[0], Light(0.f, 1.f, 0.f, 1.f), 0));
+		GAME_OBJECTS.gameObjects.push_back(GameObject(PROGRAMS.GetCompiledPrograms()[0], glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), MODELS.models[1], Light(1.f, 1.f, 1.f, 1.f), 1));
 
 		//Activamos el Depth test con lo que arreglamos el Z Fighting
 		glEnable(GL_DEPTH_TEST);  
