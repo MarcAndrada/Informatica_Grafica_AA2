@@ -1,12 +1,12 @@
 #include "Camera.h"
 
 Camera::Camera()
-    : position(glm::vec3(5.f, 5.f, 5.f)),
+    : position(glm::vec3(0.f, 2.5f, 5.f)),
     target(glm::vec3(0.f, 0.f, 0.f)),
     localVectorUp(glm::vec3(0.f, 1.f, 0.f)),
     fFov(45.f),
     fNear(0.1f),
-    fFar(1000.f),
+    fFar(100.f),
     movementSpeed(0.1f) {}
 
 void Camera::HandleKeyboardInput(GLFWwindow* window) 
