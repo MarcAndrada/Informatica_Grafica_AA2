@@ -23,11 +23,13 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GLManager.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="ProgramManager.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Stb.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MyFirstFragmentShader.glsl" />
@@ -39,9 +41,11 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLManager.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="ProgramManager.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -9,17 +9,17 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 class Model {
 public:
     Model(const std::vector<float>& vertexs, const std::vector<float>& uvs, const std::vector<float>& normals);
     void Render() const;
+    GLuint VAO, VBO, uvVBO;
 
-    static Model LoadOBJModel(const std::string& filePath);
+    unsigned int numVertexs;
 
 private:
-    GLuint VAO, VBO, uvVBO;
-    unsigned int numVertexs;
 };
 
 #endif

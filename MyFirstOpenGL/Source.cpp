@@ -10,7 +10,7 @@
 #include <sstream>
 #include <stb_image.h>
 
-#include "Model.h"
+#include "ModelManager.h"
 #include "Texture.h"
 #include "ProgramManager.h"
 #include "GLManager.h"
@@ -19,7 +19,6 @@
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
-std::vector<Model> models;
 std::vector<Texture> textures;
 struct ShaderProgram {
 	GLuint vertexShader = 0;
@@ -255,7 +254,7 @@ void main() {
 		PROGRAMS.Compile();
 
 		//Cargo Modelo
-		models.push_back(Model::LoadOBJModel("Assets/Models/troll.obj"));
+		models.push_back(ModelManager::LoadOBJModel("Assets/Models/troll.obj"));
 
 		//Activamos el Depth test con lo que arreglamos el Z Fighting
 		glEnable(GL_DEPTH_TEST);  
