@@ -13,8 +13,8 @@
 
 class Model {
 public:
+    Model() = default;
     Model(const std::vector<float>& vertexs, const std::vector<float>& uvs, const std::vector<float>& normals);
-    void Render() const;
     GLuint VAO, VBO, uvVBO;
 
     unsigned int numVertexs;

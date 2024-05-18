@@ -4,6 +4,8 @@ void ProgramManager::Compile()
 {
 	Program compiledProgram("MyFirstVertexShader.glsl", "MyFirstGeometryShader.glsl", "MyFirstFragmentShader.glsl");
 	AddProgram(compiledProgram);
+	Program secondProgram("MyFirstVertexShader.glsl", "MyFirstGeometryShader.glsl", "MyFirstFragmentShader.glsl");
+	AddProgram(secondProgram);
 }
 
 void ProgramManager::Init(int windowWidth, int windowHeight)

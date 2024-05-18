@@ -6,11 +6,11 @@ void Texture::InitTexture(const char* path)
 	textureInfo = stbi_load(path, &width, &height, &nrChanels, 4);
 }
 
-void Texture::LoadTexture()
+void Texture::LoadTexture(GLuint textureChannel)
 {
 	//Definimos canal de textura activo
-	glActiveTexture(GL_TEXTURE0);
-
+	glActiveTexture(textureChannel);
+	
 	//Genero Textura
 	GLuint textureID;
 	glGenTextures(1, &textureID);

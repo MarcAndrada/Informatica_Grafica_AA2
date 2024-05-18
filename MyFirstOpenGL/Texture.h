@@ -7,7 +7,7 @@ class Texture
 {
 public:
 	void InitTexture(const char* path);
-	void LoadTexture();
+	void LoadTexture(GLuint textureChannel);
 
 private:
 	int width, height, nrChanels;

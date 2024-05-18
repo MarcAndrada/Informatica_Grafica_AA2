@@ -23,13 +23,11 @@ private:
 	};
 
 	GLFWwindow* window;
-	bool paused;
 	DrawMode drawMode;
 
 	GLManager()
 	{
 		window = nullptr;
-		paused = false;
 	}
 
 	GLManager(const GLManager&) = delete;
@@ -50,11 +48,9 @@ public:
 
 	void ChangeBuffers();
 
-	void Pause();
 	
 	void SwapDrawMode();
 
-	inline bool GetPaused() { return paused; }
 	inline GLFWwindow* GetWindow() { return window; }
 	inline bool IsRunnig() { return !glfwWindowShouldClose(window); }
 };
