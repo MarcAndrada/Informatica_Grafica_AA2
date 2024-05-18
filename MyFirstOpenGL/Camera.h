@@ -5,10 +5,19 @@
 #include <glm.hpp>
 
 #include "GLManager.h"
+#include "TimeManager.h"
+
+#define CAMERA Camera::Instance()
 
 class Camera
 {
 public:
+    inline static Camera& Instance()
+    {
+        static Camera camera;
+        return camera;
+    }
+
     glm::vec3 position;
     glm::vec3 target;
     glm::vec3 localVectorUp;
@@ -19,11 +28,23 @@ public:
 
     float movementSpeed;
 
+    bool isOrbitating = true;
+
     Camera();
 
     void UpdateCamera();
 
 private:
-    void HandleKeyboardInput(GLFWwindow* window);
+    enum CameraState {
+        PROFILE_VIEW_1,
+        PROFILE_VIEW_2,
+        DOLLY_ZOOM,
+        ORBIT
+    };
 
+    CameraState currentState = ORBIT;
+
+    void HandleKeyboardInput(GLFWwindow* window);
+    void ApplyCameraState();
+    void Orbit();
 };

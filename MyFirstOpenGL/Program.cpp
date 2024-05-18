@@ -43,7 +43,6 @@ GLuint Program::LoadFragmentShader(const std::string& filePath)
 
 GLuint Program::LoadGeometryShader(const std::string& filePath)
 {
-
 	// Crear un vertex shader
 	GLuint geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
 

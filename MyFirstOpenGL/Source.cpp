@@ -66,7 +66,7 @@ void main() {
 			GAME_OBJECTS.GameObjectsUpdate();
 
 			// Controlador de la camara
-			camera.UpdateCamera();
+			CAMERA.UpdateCamera();
 
 
 			GLM.ChangeBuffers();

@@ -1,93 +1,90 @@
 #include "Camera.h"
 
 Camera::Camera()
-    : position(glm::vec3(0.f, 2.5f, 5.f)),
+    : position(glm::vec3(0.f, 5.f, 10.f)),
     target(glm::vec3(0.f, 0.f, 0.f)),
     localVectorUp(glm::vec3(0.f, 1.f, 0.f)),
     fFov(45.f),
     fNear(0.1f),
     fFar(100.f),
-    movementSpeed(0.1f) {}
+    movementSpeed(0.1f),
+    isOrbitating(true),
+    currentState(ORBIT) {}
 
 void Camera::HandleKeyboardInput(GLFWwindow* window) 
 {
-    /*
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
     {
-        position += movementSpeed * glm::vec3(0.f, 1.f, 0.f);
+        position = glm::vec3(0.5f, 2.f, 0.25f);
+        target = glm::vec3(1.f, 2.f, 0.25f);
+        fFov = 45;
+
+        currentState = PROFILE_VIEW_1;
     }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
     {
-        position -= movementSpeed * glm::vec3(0.f, 1.f, 0.f);
+        position = glm::vec3(1.f, 2.f, 0.f);
+        target = glm::vec3(-1.f, 2.f, 0.f);
+        fFov = 45;
+
+        currentState = PROFILE_VIEW_2;
     }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
     {
-        position += movementSpeed * glm::vec3(1.f, 0.f, 0.f);
+        position = glm::vec3(0.f, 2.f, 15.f);
+        target = glm::vec3(0.f, 2.f, 0.f);
+        fFov = 15;
+
+        currentState = DOLLY_ZOOM;
     }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
-        position -= movementSpeed * glm::vec3(1.f, 0.f, 0.f);
+        position = glm::vec3(0.f, 5.f, 10.f);
+        target = glm::vec3(0.f);
+        fFov = 45;
+
+        currentState = ORBIT;
     }
-    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
-    {
-        position += movementSpeed * glm::vec3(0.f, 0.f, 1.f);
-    }
-    if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
-    {
-        position -= movementSpeed * glm::vec3(0.f, 0.f, 1.f);
-    }
-    */
-    if (glfwGetKey(window, GLFW_KEY_PERIOD) == GLFW_PRESS)
-    {
-        fFov += 1.f;
-        if (fFov > 180.f) {
-            fFov = 180.f;
-        }
-    }
-    if (glfwGetKey(window, GLFW_KEY_COMMA) == GLFW_PRESS)
-    {
-        fFov -= 1.f;
-        if (fFov > -180.f) {
-            fFov = -180.f;
-        }
-    }
-    // Dolly View
-    if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
-    {
+}
+
+void Camera::ApplyCameraState()
+{
+    switch (currentState) {
+    case PROFILE_VIEW_1:
+    case PROFILE_VIEW_2:
+        break;
+    case DOLLY_ZOOM:
         fFov -= 0.1f;
         position.z += movementSpeed;
+        break;
+    case ORBIT:
+    default:
+        Orbit();
+        break;
     }
+}
 
-    // Orbit controls
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-    {
-        // Orbit left
-        float angle = 0.01f;
-        glm::vec3 relativePos = position - target;
-        position.x = target.x + cos(angle) * relativePos.x - sin(angle) * relativePos.z;
-        position.z = target.z + sin(angle) * relativePos.x + cos(angle) * relativePos.z;
-    }
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-    {
-        // Orbit right
-        float angle = -0.01f;
-        glm::vec3 relativePos = position - target;
-        position.x = target.x + cos(angle) * relativePos.x - sin(angle) * relativePos.z;
-        position.z = target.z + sin(angle) * relativePos.x + cos(angle) * relativePos.z;
-    }
+void Camera::Orbit()
+{
+    float angle = 0.01f;
+    glm::vec3 relativePos = position - target;
+
+    float newX = cos(angle) * relativePos.x - sin(angle) * relativePos.z;
+    float newZ = sin(angle) * relativePos.x + cos(angle) * relativePos.z;
+
+    position.x = target.x + newX;
+    position.z = target.z + newZ;
 }
 
 void Camera::UpdateCamera()
 {
     HandleKeyboardInput(GLM.GetWindow());
+    ApplyCameraState();
 
-    //Genero matriz vista
     glm::mat4 viewMatrix = glm::lookAt(position /* Eye */, target /* Target */, localVectorUp /* Up */);
 
-    //Genero matriz de proyeccion
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(fFov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, fNear, fFar);
 
-    // Pasamos las variables a la GPU
     for (GLuint program : PROGRAMS.GetCompiledPrograms())
     {
         glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
