@@ -2,18 +2,8 @@
 
 void ProgramManager::Compile()
 {
-	Program compiledProgram("MyFirstVertexShader.glsl", "MyFirstGeometryShader.glsl", "MyFirstFragmentShader.glsl");
-	AddProgram(compiledProgram);
-	Program secondProgram("MyFirstVertexShader.glsl", "MyFirstGeometryShader.glsl", "MyFirstFragmentShader.glsl");
-	AddProgram(secondProgram);
-}
+	AddProgram(Program("MyFirstVertexShader.glsl", "MyFirstGeometryShader.glsl", "MyFirstFragmentShader.glsl"));
 
-void ProgramManager::Init(int windowWidth, int windowHeight)
-{
-	for (GLuint program : compiledPrograms)
-	{
-		glUniform2f(glGetUniformLocation(program, "windowSize"), windowWidth, windowHeight);
-	}
 }
 
 GLuint ProgramManager::CreateProgram(const Program& shaders)

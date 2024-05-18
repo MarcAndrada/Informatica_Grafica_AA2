@@ -17,6 +17,8 @@ private:
 	ModelManager() = default;
 	ModelManager(const ModelManager&) = delete;
 	ModelManager& operator =(const ModelManager&) = delete;
+
+	std::vector<Model> models;
 public:
 	inline static ModelManager& Instance()
 	{
@@ -24,11 +26,13 @@ public:
 		return manager;
 	}
 	
-	std::vector<Model> models;
 
+
+	void LoadAllModels();
 	static Model LoadOBJModel(const std::string& filePath);
 
 
+	inline Model GetModel(int _modelId) { return models[_modelId]; }
 
 };
 

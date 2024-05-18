@@ -36,12 +36,11 @@ void main() {
 		//Compilar shaders
 		PROGRAMS.Compile();
 
-		//Cargo Modelo
-		MODELS.models.push_back(MODELS.LoadOBJModel("Assets/Models/troll.obj"));
-		MODELS.models.push_back(MODELS.LoadOBJModel("Assets/Models/rock.obj"));
+		//Cargamos los modelos
+		MODELS.LoadAllModels();
 
-		GAME_OBJECTS.gameObjects.push_back(GameObject(PROGRAMS.GetCompiledPrograms()[0], glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), MODELS.models[0], Light(0.f, 1.f, 0.f, 1.f), 0));
-		GAME_OBJECTS.gameObjects.push_back(GameObject(PROGRAMS.GetCompiledPrograms()[0], glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), MODELS.models[1], Light(1.f, 1.f, 1.f, 1.f), 1));
+		//Inicializamos todos los gameobjects del juego
+		GAME_OBJECTS.InitializeGameObjects();
 
 		//Activamos el Depth test con lo que arreglamos el Z Fighting
 		glEnable(GL_DEPTH_TEST);  
@@ -50,7 +49,7 @@ void main() {
 		TEXTURES.LoadTextures();
 
 		//Definimos color para limpiar el buffer de color
-		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClearColor(0.f, 0.f, 1.f, 1.f);
 
 		//Definimos modo de dibujo para cada cara
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -60,15 +59,17 @@ void main() {
 
 			//Pulleamos los eventos (botones, teclas, mouse...)
 			glfwPollEvents();
-			
-			// Controlador de la camara
-			camera.UpdateCamera();
 
 			//Limpiamos los buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-			//Renderizo objeto 0
 			GAME_OBJECTS.GameObjectsUpdate();
+
+			// Controlador de la camara
+			camera.UpdateCamera();
+
+			
+
 
 			GLM.ChangeBuffers();
 		}

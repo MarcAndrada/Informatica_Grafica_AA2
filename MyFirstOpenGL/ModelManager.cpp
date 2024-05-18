@@ -1,6 +1,12 @@
 #include "ModelManager.h"
 
 
+void ModelManager::LoadAllModels()
+{
+	models.push_back(LoadOBJModel("Assets/Models/troll.obj"));
+	models.push_back(LoadOBJModel("Assets/Models/rock.obj"));
+}
+
 Model ModelManager::LoadOBJModel(const std::string& filePath)
 {
 	//Verifico archivo y si no puedo abrirlo cierro aplicativo

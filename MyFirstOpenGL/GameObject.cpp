@@ -20,6 +20,7 @@ void GameObject::Update()
 	rotationMatrix *= GenerateRotationMatrix(rotation, rotation.y);
 	rotationMatrix *= GenerateRotationMatrix(rotation, rotation.z);
 	glm::mat4 scaleMatrix = GenerateScaleMatrix(scale);
+
 	//Asignar valores iniciales al programa
 	glUniform2f(glGetUniformLocation(program, "windowSize"), WINDOW_WIDTH, WINDOW_HEIGHT);
 	glUniform1i(glGetUniformLocation(program, "textureSampler"), textureId);

@@ -88,7 +88,10 @@ void Camera::UpdateCamera()
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(fFov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, fNear, fFar);
 
     // Pasamos las variables a la GPU
-    glUniformMatrix4fv(glGetUniformLocation(PROGRAMS.GetCompiledPrograms()[0], "viewMatrix"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
-    glUniformMatrix4fv(glGetUniformLocation(PROGRAMS.GetCompiledPrograms()[0], "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-
+    for (GLuint program : PROGRAMS.GetCompiledPrograms())
+    {
+        glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
+        glUniformMatrix4fv(glGetUniformLocation(program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+    }
+    
 }
