@@ -30,9 +30,6 @@ void main() {
 	//Inicializamos GLEW y controlamos errores
 	if (glewInit() == GLEW_OK) {
 
-		//Declarar instancia de camara
-		Camera camera;
-
 		//Compilar shaders
 		PROGRAMS.Compile();
 
@@ -64,10 +61,6 @@ void main() {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 			ENTITIES.EntitiesUpdate();
-
-			// Controlador de la camara
-			CAMERA.UpdateCamera();
-
 
 			GLM.ChangeBuffers();
 		}

@@ -6,19 +6,14 @@
 
 #include "GLManager.h"
 #include "TimeManager.h"
+#include "Entity.h"
 
-#define CAMERA Camera::Instance()
 
-class Camera
+class Camera: public Entity
 {
 public:
-    inline static Camera& Instance()
-    {
-        static Camera camera;
-        return camera;
-    }
+    Camera();
 
-    glm::vec3 position;
     glm::vec3 target;
     glm::vec3 localVectorUp;
 
@@ -30,10 +25,9 @@ public:
 
     bool isOrbitating = true;
 
-    Camera();
 
-    void UpdateCamera();
-
+    void Update() override;
+    void Render() override {}
 private:
     enum CameraState {
         PROFILE_VIEW_1,

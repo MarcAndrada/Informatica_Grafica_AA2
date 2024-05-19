@@ -2,6 +2,7 @@
 #include <vector>
 #include "GameObject.h"
 #include "Primitive.h"
+#include "Camera.h"
 #include "ModelManager.h"
 
 #define ENTITIES EntityManager::Instance()

@@ -1,15 +1,17 @@
 #include "Camera.h"
 
-Camera::Camera()
-    : position(glm::vec3(0.f, 5.f, 10.f)),
-    target(glm::vec3(0.f, 0.f, 0.f)),
-    localVectorUp(glm::vec3(0.f, 1.f, 0.f)),
-    fFov(45.f),
-    fNear(0.1f),
-    fFar(100.f),
-    movementSpeed(5.f),
-    isOrbitating(true),
-    currentState(ORBIT) {}
+Camera::Camera() 
+{
+    transform.position = glm::vec3(0.f, 5.f, 10.f);
+    target = glm::vec3(0.f, 0.f, 0.f);
+    localVectorUp = glm::vec3(0.f, 1.f, 0.f);
+    fFov = 45.f;
+    fNear = 0.1f;
+    fFar = 100.f;
+    movementSpeed = 5.f;
+    isOrbitating = true;
+    currentState = ORBIT;
+}
 
 void Camera::HandleKeyboardInput(GLFWwindow* window) 
 {
@@ -41,7 +43,7 @@ void Camera::HandleKeyboardInput(GLFWwindow* window)
 
 void Camera::SetCameraPosition(glm::vec3 _position, glm::vec3 _target, float _fFov)
 {
-    position = _position;
+    transform.position = _position;
     target = _target;
     fFov = _fFov;
 }
@@ -56,7 +58,7 @@ void Camera::ApplyCameraState()
         break;
     case DOLLY_ZOOM:
         fFov += movementSpeed * deltaTime;
-        position.z -= movementSpeed * deltaTime;
+        transform.position.z -= movementSpeed * deltaTime;
         
         if (fFov >= 60)
         {
@@ -76,22 +78,22 @@ void Camera::ApplyCameraState()
 void Camera::Orbit(float deltaTime)
 {
     float angle = 0.5f * deltaTime;
-    glm::vec3 relativePos = position - target;
+    glm::vec3 relativePos = transform.position - target;
 
     float newX = cos(angle) * relativePos.x - sin(angle) * relativePos.z;
     float newZ = sin(angle) * relativePos.x + cos(angle) * relativePos.z;
 
-    position.x = target.x + newX;
-    position.z = target.z + newZ;
+    transform.position.x = target.x + newX;
+    transform.position.z = target.z + newZ;
 }
 
-void Camera::UpdateCamera()
+void Camera::Update()
 {
     TIME_MANAGER.Update();
     HandleKeyboardInput(GLM.GetWindow());
     ApplyCameraState();
 
-    glm::mat4 viewMatrix = glm::lookAt(position /* Eye */, target /* Target */, localVectorUp /* Up */);
+    glm::mat4 viewMatrix = glm::lookAt(transform.position /* Eye */, target /* Target */, localVectorUp /* Up */);
 
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(fFov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, fNear, fFar);
 
