@@ -7,7 +7,7 @@ Camera::Camera()
     fFov(45.f),
     fNear(0.1f),
     fFar(100.f),
-    movementSpeed(0.1f),
+    movementSpeed(5.f),
     isOrbitating(true),
     currentState(ORBIT) {}
 
@@ -15,58 +15,67 @@ void Camera::HandleKeyboardInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
     {
-        position = glm::vec3(0.5f, 2.f, 0.25f);
-        target = glm::vec3(1.f, 2.f, 0.25f);
-        fFov = 45;
+        SetCameraPosition(glm::vec3(0.5f, 2.f, 0.25f), glm::vec3(1.f, 2.f, 0.25f), 45);
 
         currentState = PROFILE_VIEW_1;
     }
     else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
     {
-        position = glm::vec3(1.f, 2.f, 0.f);
-        target = glm::vec3(-1.f, 2.f, 0.f);
-        fFov = 45;
+        SetCameraPosition(glm::vec3(1.f, 2.f, 0.f), glm::vec3(-1.f, 2.f, 0.f), 45);
 
         currentState = PROFILE_VIEW_2;
     }
     else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
     {
-        position = glm::vec3(0.f, 2.f, 15.f);
-        target = glm::vec3(0.f, 2.f, 0.f);
-        fFov = 15;
+        SetCameraPosition(glm::vec3(0.f, 2.f, 15.f), glm::vec3(0.f, 2.f, 0.f), 45);
 
         currentState = DOLLY_ZOOM;
     }
     else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
-        position = glm::vec3(0.f, 5.f, 10.f);
-        target = glm::vec3(0.f);
-        fFov = 45;
+        SetCameraPosition(glm::vec3(0.f, 5.f, 10.f), glm::vec3(0.f), 45);
 
         currentState = ORBIT;
     }
 }
 
+void Camera::SetCameraPosition(glm::vec3 _position, glm::vec3 _target, float _fFov)
+{
+    position = _position;
+    target = _target;
+    fFov = _fFov;
+}
+
 void Camera::ApplyCameraState()
 {
+    float deltaTime = TIME_MANAGER.GetDeltaTime();
+
     switch (currentState) {
     case PROFILE_VIEW_1:
     case PROFILE_VIEW_2:
         break;
     case DOLLY_ZOOM:
-        fFov -= 0.1f;
-        position.z += movementSpeed;
+        fFov += movementSpeed * deltaTime;
+        position.z -= movementSpeed * deltaTime;
+        
+        if (fFov >= 60)
+        {
+            SetCameraPosition(glm::vec3(0.f, 5.f, 10.f), glm::vec3(0.f), 45);
+
+            currentState = ORBIT;
+        }
+
         break;
     case ORBIT:
     default:
-        Orbit();
+        Orbit(deltaTime);
         break;
     }
 }
 
-void Camera::Orbit()
+void Camera::Orbit(float deltaTime)
 {
-    float angle = 0.01f;
+    float angle = 0.5f * deltaTime;
     glm::vec3 relativePos = position - target;
 
     float newX = cos(angle) * relativePos.x - sin(angle) * relativePos.z;
@@ -78,6 +87,7 @@ void Camera::Orbit()
 
 void Camera::UpdateCamera()
 {
+    TIME_MANAGER.Update();
     HandleKeyboardInput(GLM.GetWindow());
     ApplyCameraState();
 

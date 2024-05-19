@@ -45,6 +45,10 @@ private:
     CameraState currentState = ORBIT;
 
     void HandleKeyboardInput(GLFWwindow* window);
+
+    void SetCameraPosition(glm::vec3 _position, glm::vec3 _target, float _fFov);
+
     void ApplyCameraState();
-    void Orbit();
+
+    void Orbit(float deltaTime);
 };
