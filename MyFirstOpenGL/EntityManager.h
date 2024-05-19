@@ -25,7 +25,6 @@ private:
 	EntityManager() = default;
 	EntityManager(const EntityManager&) = delete;
 	EntityManager& operator =(const EntityManager&) = delete;
-	std::vector<GameObject> entities;
-	std::vector <Primitive> primitives;
+	std::vector<Entity*> entities;
 };
 
