@@ -23,7 +23,6 @@ public:
 	}
 
 	void Compile();
-	void Init(int windowWidth, int windowHeight);
 
 	GLuint CreateProgram(const Program& shaders);
 

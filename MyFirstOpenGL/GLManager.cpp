@@ -57,11 +57,6 @@ void GLManager::ChangeBuffers()
 	glfwSwapBuffers(window);
 }
 
-void GLManager::Pause()
-{
-	paused = !paused;
-}
-
 void GLManager::SwapDrawMode()
 {
 	drawMode = (DrawMode)(((int)drawMode + 1) % 2);
