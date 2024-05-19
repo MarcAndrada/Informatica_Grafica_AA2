@@ -15,7 +15,7 @@
 #include "ProgramManager.h"
 #include "GLManager.h"
 #include "Camera.h"
-#include "GameObjectManager.h"
+#include "EntityManager.h"
 #include "TextureManager.h"
 
 #define WINDOW_WIDTH 640
@@ -40,7 +40,7 @@ void main() {
 		MODELS.LoadAllModels();
 
 		//Inicializamos todos los gameobjects del juego
-		GAME_OBJECTS.InitializeGameObjects();
+		ENTITIES.InitializeEntities();
 
 		//Activamos el Depth test con lo que arreglamos el Z Fighting
 		glEnable(GL_DEPTH_TEST);  
@@ -63,7 +63,7 @@ void main() {
 			//Limpiamos los buffers
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-			GAME_OBJECTS.GameObjectsUpdate();
+			ENTITIES.EntitiesUpdate();
 
 			// Controlador de la camara
 			CAMERA.UpdateCamera();

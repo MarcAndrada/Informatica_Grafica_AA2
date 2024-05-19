@@ -1,28 +1,20 @@
 #pragma once
 
 #include "Model.h"
-#include "Transform.h"
+#include "Entity.h"
 #include "GLManager.h"
 #include "Light.h"
 
-class GameObject
+class GameObject : public Entity
 {
 public:
 	GameObject(GLuint _program, glm::vec3 _position, glm::vec3 _rotation, glm::vec3 _scale, Model _model, Light _light, int _textureId);
 
-	void Update();
-	void Render();
+	void Update() override;
+	void Render() override;
 
 private:
 	Model model;
-	GLuint program;
-	glm::vec3 position, rotation, scale;
 	int textureId;
-
-	Light light;
-
-	glm::mat4 GenerateTranslationMatrix(glm::vec3 translation);
-	glm::mat4 GenerateRotationMatrix(glm::vec3 axis, float fDegrees);
-	glm::mat4 GenerateScaleMatrix(glm::vec3 _scale);
 };
 
